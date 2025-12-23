@@ -1,11 +1,6 @@
 
-const CONFIG = {
-  owner: "MegaMind-Solution",
-  repo: "MegaMind-Solution",
-  path: "Img",
-  limit: 50,
-};
-// const CONFIG = { owner: "Pro-Bandey", repo: "minimalistic-wallpapers", path: "images", limit: 50 };
+// const CONFIG={owner:"MegaMind-Solution",repo:"MegaMind-Solution",path:"Img",limit:50};
+const CONFIG = { owner: "Pro-Bandey", repo: "minimalistic-wallpapers", path: "images", limit: 50 };
 let allData = [],
   filtered = [],
   curIdx = 0,

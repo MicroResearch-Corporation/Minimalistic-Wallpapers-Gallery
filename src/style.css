@@ -553,6 +553,24 @@ body.is-ptr #cur-ring::before {
   top: 0;
   right: 0;
 }
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 4px;
+  cursor: grab;
+}
+::-webkit-scrollbar-thumb:active {
+  cursor: grabbing;
+}
 @media (max-width: 768px) {
   .desktop-only {
     display: none !important;

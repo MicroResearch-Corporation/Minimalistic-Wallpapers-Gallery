@@ -36,7 +36,7 @@ Instead of manually updating galleries or uploading files to a server, this proj
 
 ### Dynamic Gallery Layouts
 
-![Gallery Grid](https://placehold.co/600x400?text=Gallery+Grid)
+![Gallery Grid](https://iili.io/fGnjzGf.png)
 
 Multiple layout modes (Grid, Single, Detail, Compact) using CSS column layouts for optimal responsiveness.
 
@@ -44,7 +44,7 @@ Multiple layout modes (Grid, Single, Detail, Compact) using CSS column layouts f
 
 ### Advanced Lightbox
 
-![Lightbox Preview](https://placehold.co/600x400?text=Lightbox+Preview)
+![Lightbox Preview](https://iili.io/fGnhsrQ.png)
 
 Full-screen preview with navigation, keyboard support, touch gestures, metadata display, and quick actions.
 
@@ -52,7 +52,7 @@ Full-screen preview with navigation, keyboard support, touch gestures, metadata 
 
 ### Search & Sorting
 
-![Search and Sort](https://placehold.co/600x400?text=Search+and+Sort)
+![Search and Sort](https://iili.io/fGnhWIn.png)
 
 Real-time search with URL sync, sorting by name, folder, resolution, file type, or random shuffle.
 
@@ -60,9 +60,9 @@ Real-time search with URL sync, sorting by name, folder, resolution, file type, 
 
 ### Smart Pagination
 
-![Tabs Pagination](https://placehold.co/600x400?text=Tabs+Pagination)
+![Tabs Pagination](https://iili.io/fGnX6UN.png)
 
-Images are chunked into tabs (100 per tab) for performance and better navigation.
+
 
 ---
 

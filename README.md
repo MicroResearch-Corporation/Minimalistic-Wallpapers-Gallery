@@ -1,4 +1,4 @@
-# Minimalistic Wallpapers Gallery – Project Overview
+# Minimalistic Wallpapers Gallery
 
 ## Minimalistic Wallpapers Gallery
 

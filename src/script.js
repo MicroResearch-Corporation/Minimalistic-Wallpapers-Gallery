@@ -1,18 +1,18 @@
-
+   /*
     const CONFIG = {
       json: "https://raw.githubusercontent.com/Pro-Bandey/minimalistic-wallpapers/output/images-meta.json",
       imageBase: "https://raw.githubusercontent.com/Pro-Bandey/minimalistic-wallpapers/main/",
       limit: 36,
       NEW_DAYS: 14
-    };
-    /*
+    };  */
+ 
     const CONFIG = {
-      json: "https://raw.githubusercontent.com/MegaMind-Solution/MegaMind-Solution/output/images-meta.json",
+      json: "https://github.com/MegaMind-Solution/MegaMind-Solution/blob/output/images-meta.json",
       imageBase: "https://raw.githubusercontent.com/MegaMind-Solution/MegaMind-Solution/main/",
       limit: 30,
       NEW_DAYS: 14
     };
-    */
+  
 
     let allData = [], filtered = [], curIdx = 0, page = 0;
     const state = {

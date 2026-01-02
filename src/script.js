@@ -1,18 +1,18 @@
-   /*
+
     const CONFIG = {
       json: "https://raw.githubusercontent.com/Pro-Bandey/minimalistic-wallpapers/output/images-meta.json",
       imageBase: "https://raw.githubusercontent.com/Pro-Bandey/minimalistic-wallpapers/main/",
       limit: 36,
       NEW_DAYS: 14
-    };  */
- 
+    };  
+    /*
     const CONFIG = {
       json: "https://raw.githubusercontent.com/MegaMind-Solution/MegaMind-Solution/output/images-meta.json",
       imageBase: "https://raw.githubusercontent.com/MegaMind-Solution/MegaMind-Solution/main/",
       limit: 30,
       NEW_DAYS: 14
     };
-  
+  */
 
     let allData = [], filtered = [], curIdx = 0, page = 0;
     const state = {
@@ -62,7 +62,7 @@
         const now = Date.now();
         const NEW_MS = CONFIG.NEW_DAYS * 86400000;
 
-        allData = data.Img.map(img => {
+        allData = data.images.map(img => {
           const added = new Date(img.dates?.added || img.dates?.updated || Date.now()).getTime();
           const kb = typeof img.kb === "number" ? img.kb : (img.sizeBytes ? img.sizeBytes / 1024 : 0);
           return {

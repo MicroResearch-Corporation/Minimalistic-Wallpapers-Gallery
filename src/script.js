@@ -7,7 +7,7 @@
     };  */
  
     const CONFIG = {
-      json: "https://raw.githubusercontent.com/MegaMind-Solution/MegaMind-Solution/refs/heads/output/images-meta.json",
+      json: "https://raw.githubusercontent.com/MegaMind-Solution/MegaMind-Solution/output/images-meta.json",
       imageBase: "https://raw.githubusercontent.com/MegaMind-Solution/MegaMind-Solution/main/",
       limit: 30,
       NEW_DAYS: 14

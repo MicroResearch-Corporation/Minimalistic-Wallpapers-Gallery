@@ -62,7 +62,7 @@
         const now = Date.now();
         const NEW_MS = CONFIG.NEW_DAYS * 86400000;
 
-        allData = data.images.map(img => {
+        allData = data.Img.map(img => {
           const added = new Date(img.dates?.added || img.dates?.updated || Date.now()).getTime();
           const kb = typeof img.kb === "number" ? img.kb : (img.sizeBytes ? img.sizeBytes / 1024 : 0);
           return {

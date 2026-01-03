@@ -1,6 +1,17 @@
 # Minimalistic Wallpapers Gallery
 
-## Minimalistic Wallpapers Gallery
+<p align="center">
+  <img src="./src/icon.png" height="200" alt="Icon" />
+</p>
+<p align="center">
+  <a href="https://microresearch-corporation.github.io/Minimalistic-Wallpapers-Gallery/">View Site</a> •
+  <a href="https://github.com/login?return_to=%2FMicroResearch-Corporation%2FMinimalistic-Wallpapers-Gallery">Fork This Reo</a> •
+  <a href="https://github.com/Pro-Bandey/minimalistic-wallpapers/tree/main/images">View Images</a> •
+  <a href="./LICENSE">License</a>
+</p>
+
+
+
 
 A modern, fully client-side web gallery that dynamically loads, displays, filters, previews, and downloads images directly from a GitHub repository — without any backend.
 
@@ -16,14 +27,14 @@ Instead of manually updating galleries or uploading files to a server, this proj
 
 ## 🎯 Why This Project Was Created
 
-### 🚫 Problems With Traditional Galleries
+#### 🚫 Problems With Traditional Galleries
 
 * Require backend servers
 * Manual uploads & maintenance
 * Poor performance on large collections
 * Lack of advanced filtering & layouts
 
-### ✅ This Project Solves
+#### ✅ This Project Solves
 
 * No backend required
 * Images auto-sync from GitHub
@@ -84,7 +95,7 @@ Real-time sorting by name, folder, resolution, file type, or random shuffle.
 
 
 ---
-
+### [Performance](https://pagespeed.web.dev/analysis/https-microresearch-corporation-github-io-Minimalistic-Wallpapers-Gallery/0h10l3qa7x?form_factor=desktop)
 This design ensures **maximum performance, zero hosting cost, instant scalability, and long-term maintainability**.
 
 ---

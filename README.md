@@ -34,33 +34,52 @@ Instead of manually updating galleries or uploading files to a server, this proj
 
 ## ✨ Key Features
 
-### Dynamic Gallery Layouts
+### Materail Design+Glassomorphism UI Look
 
-![Gallery Grid](https://iili.io/fGnjzGf.png)
+![Gallery Grid](https://iili.io/fjs7ln9.png)
 
-Multiple layout modes (Grid, Single, Detail, Compact) using CSS column layouts for optimal responsiveness.
+Multiple layout modes (Grid Small, Grid Medium, Grid Large, Grid Single, Detail, Compact)
 
 ---
 
-### Advanced Lightbox
+### Impressive Lightbox
 
-![Lightbox Preview](https://iili.io/fGnhsrQ.png)
+![Lightbox Preview](https://iili.io/fjsGmjj.png)
 
 Full-screen preview with navigation, keyboard support, touch gestures, metadata display, and quick actions.
 
 ---
 
-### Search & Sorting
+---
 
-![Search and Sort](https://iili.io/fGnhWIn.png)
+### Advanced  Properties Panel
 
-Real-time search with URL sync, sorting by name, folder, resolution, file type, or random shuffle.
+![Lightbox Preview](https://iili.io/fjsGgjf.png)
+
+Full-screen preview with navigation, keyboard support, touch gestures, metadata display, and quick actions.
+
+---
+
+### Quickly Search Any Image/Images
+
+![Search and Sort](https://iili.io/fjs5gh7.png)
+
+Real-time search with URL sync, and easy to share to friend to easily access to your search images
+
+---
+---
+
+### Sort By Your Choice
+
+![Search and Sort](https://iili.io/fjs5PEu.png)
+
+Real-time sorting by name, folder, resolution, file type, or random shuffle.
 
 ---
 
 ### Smart Pagination
 
-![Tabs Pagination](https://iili.io/fGnX6UN.png)
+![Tabs Pagination](https://iili.io/fjs7T3G.png)
 
 
 
@@ -85,27 +104,57 @@ This design ensures **maximum performance, zero hosting cost, instant scalabilit
 
 ## 🛠 Technologies Used
 
-### HTML5
+### [HTML5](./index.html)
 
 Semantic structure, accessibility, and static hosting compatibility.
 
-### CSS3
+### [CSS3](./src/style.css)
 
 Modern layout techniques (columns, grid), transitions, responsive design, and theme variables.
 
-### Vanilla JavaScript
+### [Vanilla JavaScript](./src/script.js)
 
 No frameworks. Pure JavaScript for performance, portability, and long-term maintainability.
 
-### GitHub REST API
+### [Workflow](https://github.com/Pro-Bandey/minimalistic-wallpapers/blob/main/.github/workflows/sync.yml)
+that create databese in repo that contain images.
+Used as a dynamic image database [images-meta.json](https://raw.githubusercontent.com/Pro-Bandey/minimalistic-wallpapers/output/images-meta.json), removing the need for a custom backend. and genrate all meta data of images in output branck
 
-Used as a dynamic image database, removing the need for a custom backend.
+```metaData
+{
+  "version": 1,
+  "generated_at": "2026-01-03T13:34:03.752Z",
+  "total": 415,
+  "duplicates": 0,
+  "images": [
+    {
+      "id": "7b58699ccbce",
+      "name": "Blue-mountain-landscape-background-illustration.jpg",
+      "src": "images/Blue-mountain-landscape-background-illustration.jpg",
+      "folder": "root",
+      "ext": "jpg",
+      "width": 0,
+      "height": 0,
+      "aspect_ratio": 0,
+      "dpi": "72",
+      "bit_depth": "8",
+      "kb": 45.83,
+      "hash": "7b58699ccbce69ad7766a6392afee206aafc2d878874b5e55e83d41c9b6d114d",
+      "dates": {
+        "added": "2026-01-03",
+        "updated": "2026-01-03"
+      }
+    }
+    other images meta.....
+  ]
+}
+```
 
 ---
 
-## 🎨 Design Philosophy
+## 🎨 Design and Look
 
-The UI follows a **minimalistic, content-first approach**.
+The UI follows **minimalistic + Material-Design 3 + Glassomorphism** layout rules and principles.
 Controls stay subtle, images take priority, and animations are smooth but never distracting.
 
 * Dark-mode first design
@@ -154,7 +203,7 @@ This project is designed to be **easy to fork, easy to understand, and easy to e
 ### What You Can Improve
 
 * Performance optimizations
-* UI/UX enhancements
+* UI/UX enhancements in Modern Ui Looks
 * Accessibility improvements
 * New gallery features
 * Documentation & translations
@@ -173,7 +222,7 @@ it’s about **supporting sustainable open-source work**.
 * It motivates continued development and maintenance
 * It supports open knowledge sharing
 
-If this project helped you learn something, save time, or inspired your own work, a ⭐ is a simple way to say “thank you”.
+If this project helped you learn something, save time, or inspired your own work, a star **⭐** is a simple way to say “thank you”.
 
 ---
 
@@ -189,5 +238,5 @@ This architecture allows easy expansion:
 
 ---
 
-© Minimalistic Wallpapers Gallery
-Powered by MicroResearch Corporation & Web Standards
+© 2025 [Minimalistic Wallpapers Gallery](https://microresearch-corporation.github.io/Minimalistic-Wallpapers-Gallery/)
+Powered by [MicroResearch Corporation](https://microresearch-corporation.github.io/) and Develop by [M Ramzan Ch](https://mramzanch.blogspot.com/)

@@ -34,6 +34,22 @@
       "purpose": "maskable"
     }
   ],
+  "display_override": ["window-controls-overlay"], 
+  "protocol_handlers": [{"protocol":"mailto","url":"/newEmail?to=%s"}], 
+  "shortcuts": [
+  {
+    "name": "Search Images",
+    "short_name": "Search Images",
+    "description": "click to search Images",
+    "url": "?q=",
+    "icons": [
+      {
+        "src": "./src/icon.png",
+        "sizes": "192x192"
+      }
+    ]
+  }
+], 
   "screenshots": [
     {
       "src": "https://iili.io/fGnhWIn.png",
@@ -53,7 +69,7 @@
     {
       "src": "https://iili.io/fGnjzGf.png",
       "type": "image/png",
-      "description": "A screenshot of the lghht mode "
+      "description": "A screenshot of the light mode "
     },
     {
       "src": "https://iili.io/fGnX6UN.png",

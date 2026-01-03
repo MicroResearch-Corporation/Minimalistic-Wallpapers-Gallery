@@ -131,7 +131,7 @@
         card.innerHTML = `
           <div class="img-hld">
             ${img.isNew ? '<div class="badge-rgb">NEW</div>' : ''}
-            <img src="${img.url}" loading="lazy" decoding="async" onload="setRes(this, ${gIdx})" width="100%" height="auto">
+            <img src="${img.url}" alt="${img.id}" loading="lazy" decoding="async" onload="setRes(this, ${gIdx})" width="100%" height="auto">
           </div>
           <button class="dots-btn" onclick="openMenu(event, ${gIdx}, 'card')">
             <span class="material-icons">more_vert</span>
@@ -181,93 +181,6 @@
       }
     }
 
-    // const Actions = {
-    //   tab: (i) => window.open(filtered[i].url, "_blank"),
-    //   dl: async (i) => {
-    //     const img = filtered[i];
-    //     const blob = await fetch(img.url).then((r) => r.blob());
-    //     const a = document.createElement("a");
-    //     a.href = URL.createObjectURL(blob);
-    //     a.download = img.name;
-    //     a.click();
-    //   },
-    //   copyI: async (i) => {
-    //     const res = await fetch(filtered[i].url);
-    //     const blob = await res.blob();
-    //     try {
-    //       await navigator.clipboard.write([ new ClipboardItem({ [blob.type]: blob }) ]);
-    //       alert("Image copied to clipboard!");
-    //     } catch (e) {
-    //       alert("Copy failed: Browser restriction.");
-    //     }
-    //   },
-    //   shareI: async (i) => {
-    //     const b = await fetch(filtered[i].url).then((r) => r.blob());
-    //     const f = new File([b], filtered[i].name, { type: b.type });
-    //     if (navigator.canShare && navigator.canShare({ files: [f] })) navigator.share({ files: [f] });
-    //   },
-    //   copyU: (i) => { navigator.clipboard.writeText(filtered[i].url); alert("Link Copied!"); },
-    //   shareU: (i) => navigator.share?.({ title: filtered[i].name, url: filtered[i].url })?.catch(()=>{}),
-    //   props: (i) => {
-    //     const img = filtered[i] || {};
-    //     const raw = img.raw || {};
-    //     const folderIcon = `<span class="material-icons" title="Folder" style="vertical-align:middle; font-size:15px;">folder</span>`;
-    //     // Prepare date strings
-    //     const added = (img.dates?.added ? new Date(img.dates.added) : (img.date ? new Date(img.date) : null));
-    //     const updated = (img.dates?.updated ? new Date(img.dates.updated) : null);
-
-    //     const addedStr=added?added.toLocaleDateString(void 0,{year:"numeric",month:"2-digit",day:"2-digit"}):"—";
-
-    //     // const updatedStr = updated ? updated.toLocaleDateString() : (img.dates?.updated ? img.dates.updated : "—");
-
-    //     const updatedStr=updated?updated.toLocaleDateString(void 0,{year:"numeric",month:"2-digit",day:"2-digit"}):img.dates?.updated?new Date(img.dates.updated).toLocaleDateString(void 0,{year:"numeric",month:"2-digit",day:"2-digit"}):"—";
-    //     const previewHtml = `<div class="prop-preview"><img src="${img.url}" onload="this.classList.add('loaded')"></div>`;
-
-    //     const list = [
-    //       { l: "Filename", v: img.name || "—" },
-    //       { l: "ID", v: img.id || "—" },
-    //       { l: "Resolution", v: img.res || "—" },
-    //       { l: "File Size", v: img.sizeStr + ` (${(img.rawSize || 0).toLocaleString()} bytes)` },
-    //       { l: "Format", v: img.type || (img.ext || "—").toUpperCase() },
-    //       { l: "Folder", v: `${folderIcon} ${img.folder || "—"}` },
-    //       { l: "Repo Path", v: img.path || "—" },
-    //       { l: "Added", v: addedStr },
-    //       { l: "Updated", v: updatedStr },
-    //       { l: "Hash", v: img.hash || "—" },
-    //       { l: "Tags", v: (Array.isArray(img.tags) ? img.tags.join(", ") : (img.tags || "—")) }
-    //     ];
-
-    //     const listHtml = list.map(p => `
-    //       <div class="prop-item">
-    //         <div style="display:flex; gap:8px; align-items:center;">
-    //           <span class="prop-label">${p.l}</span>
-    //           <span class="prop-val" id="pv-${p.l.replace(/\s+/g,'-')}">${p.v}</span>
-    //         </div>
-    //         <div style="display:flex; gap:6px; align-items:center;">
-    //           <button class="copy-btn" onclick="copyProp('${escapeForCopy(p.v)}')">Copy</button>
-    //         </div>
-    //       </div>`).join("");
-
-    //     const rawJson = `<details open><summary style="cursor:pointer">Show raw JSON</summary><pre>${escapeHtml(JSON.stringify(raw, null, 2))}</pre></details>`;
-
-    //     const html = `
-    //       <div class="prop-grid">
-    //         ${previewHtml}
-    //         <div class="prop-list">
-    //           ${listHtml}
-    //           ${rawJson}
-    //         </div>
-    //       </div>
-    //     `;
-
-    //     document.getElementById("prop-body").innerHTML = html;
-    //     document.getElementById("prop-popup").style.display = "block";
-    //     document.getElementById("prop-popup").setAttribute("aria-hidden", "false");
-    //     document.body.style.overflow = "hidden";
-
-    //   }
-    // };
-
     const Actions = {
       tab: (i) => window.open(filtered[i].url, "_blank"),
       dl: async (i) => {
@@ -306,7 +219,7 @@
         const updated = (img.dates?.updated ? new Date(img.dates.updated) : null);
         const addedStr=added?added.toLocaleDateString(void 0,{year:"numeric",month:"2-digit",day:"2-digit"}):"—";
         const updatedStr=updated?updated.toLocaleDateString(void 0,{year:"numeric",month:"2-digit",day:"2-digit"}):img.dates?.updated?new Date(img.dates.updated).toLocaleDateString(void 0,{year:"numeric",month:"2-digit",day:"2-digit"}):"—";
-        const previewHtml = `<div class="prop-preview"><img src="${img.url}" onload="this.classList.add('loaded')"></div>`;
+        const previewHtml = `<div class="prop-preview"><img src="${img.url}" alt="${img.id}" onload="this.classList.add('loaded')"></div>`;
 
         const list = [
           { l: "Filename", v: img.name || "—" },

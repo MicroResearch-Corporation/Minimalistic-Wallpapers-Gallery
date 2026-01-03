@@ -7,6 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=7">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
   <!-- Seo Tags -->
   <meta name="title" content="Minimalistic Wallpapers Gallery" />
   <meta name="description"
@@ -15,21 +16,28 @@
   <meta name="keywords"
     content="Minimalistic Wallpapers Gallery, Minimalistic, Wallpapers, Gallery, Minimalistic Wallpapers ,Wallpapers Gallery" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="http://127.0.0.1:5500/" />
+  <meta property="og:url" content="https://microresearch-corporation.github.io/Minimalistic-Wallpapers-Gallery/" />
   <meta property="og:title" content="Minimalistic Wallpapers Gallery" />
   <meta property="og:description"
     content="Minimalistic, flat art, and colorful, digital nature wallpapers and an API for randomly selecting them." />
   <meta property="og:image"
     content="http://res.cloudinary.com/dpu5ywrox/image/upload/v1766503372/u3gvvkbggjbhl8edtgdc.png" />
   <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="http://127.0.0.1:5500/" />
+  <meta property="twitter:url" content="https://microresearch-corporation.github.io/Minimalistic-Wallpapers-Gallery/" />
   <meta property="twitter:title" content="Minimalistic Wallpapers Gallery" />
   <meta property="twitter:description"
     content="Minimalistic, flat art, and colorful, digital nature wallpapers and an API for randomly selecting them." />
   <meta property="twitter:image"
     content="http://res.cloudinary.com/dpu5ywrox/image/upload/v1766503372/u3gvvkbggjbhl8edtgdc.png" />
-  <!-- PWA Data -->
+  <!-- PreConnects -->
+  <link rel="preconnect" href="https://raw.githubusercontent.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  
+    <!-- PWA Data -->
   <link href="./manifest.json" rel="manifest" />
+  <link rel="canonical " href="https://microresearch-corporation.github.io/Minimalistic-Wallpapers-Gallery/">
   <link href="./src/icon.png" rel="data" />
   <link href="./src/icon.png" rel="apple-touch-icon" sizes="180x180" />
   <link href="./src/icon.png" rel="android-chrome-192x192" sizes="192x192" />
@@ -39,7 +47,9 @@
   <link href="./src/icon.png" rel="icon" />
 
 
-  <script>navigator.serviceWorker.register("src/sw.js")</script>
+ <script>navigator.serviceWorker.register('/Minimalistic-Wallpapers-Gallery/src/sw.js',{ type: 'module'});</script>
+
+  <link rel="preload" href="https://fonts.gstatic.com/s/materialicons/v145/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2" as="font" type="font/woff2" crossorigin>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   <link rel="stylesheet" href="./src/style.css">
@@ -50,12 +60,6 @@
   <div class="progress-container">
     <div class="progress-bar" id="myBar"></div>
   </div>
-  <a href="https://github.com/MicroResearch-Corporation/Minimalistic-Wallpapers-Gallery" title="Give a Star"
-    class="field rate"><span class="material-icons">star_rate</span></a>
-  <a href="javascript:void(0)" title="Go To Up" class="field up" id="goUp"
-    style="position: fixed; bottom: 15px; right: 15px;"><span class="material-icons">north</span></a>
-
-  <div id="cur-ring"></div>
 
   <header class="header" id="up">
     <div class="meta">
@@ -65,12 +69,12 @@
       </div>
       <div class="social">
         <a class="link" href="https://www.facebook.com/mramzanch01" target="_blank"><img src="./src/FB.png"
-            title="Facebook">Facebook</a>
+            title="Facebook" alt="Facebook" />Facebook</a>
         <a class="link" href="https://www.instagram.com/rm4814591" target="_blank"><img src="./src/instagram.png"
-            title="Instagram">Facebook</a>
+            title="Instagram" alt="instagram" />Instagram</a>
         <a class="link" href="https://pk.linkedin.com/in/mramzanch" target="_blank"><img src="./src/LnK.png"
-            title="LinkedIn">LinkedIn</a>
-        <a class="link" href="https://www.x.com/rm4814591" target="_blank"><img src="./src/X.png" title="twitter">X</a>
+            title="LinkedIn" alt="linkedin" />LinkedIn</a>
+        <a class="link" href="https://www.x.com/rm4814591" target="_blank"><img src="./src/X.png" title="X" alt="X" />X</a>
       </div>
     </div>
     <input class="field searchbar" type="text" id="search-in" placeholder="Search gallery repository...">
@@ -89,15 +93,24 @@
         <button id="sort-order" class="field sort-order"><span class="material-icons">arrow_downward</span></button>
       </div>
       <div class="layout">
-        <select id="layout-sel" aria-label="layouts" class="field layout-sel"></select>
+        <select id="layout-sel" aria-label="layouts" style="min-width:100px;" class="field layout-sel"></select>
       </div>
       <div class="theme-chn">
         <button id="theme-tog" class="field theme-tog"><span class="material-icons">brightness_4</span></button>
       </div>
     </div>
   </header>
-  <main>
 
+  <nav>
+      <a href="https://github.com/MicroResearch-Corporation/Minimalistic-Wallpapers-Gallery" title="Give a Star"
+    class="field rate"><span class="material-icons">star_rate</span></a>
+  <button title="Go To Up" class="field up" id="goUp"
+    style="position: fixed; bottom: 15px; right: 15px;"><span class="material-icons">north</span></button>
+
+  <div id="cur-ring"></div>
+  </nav>
+
+  <main style="min-height: 50vh;">
 
     <div id="tabs" class="tabs-box"></div>
     <div id="gallery"></div>
@@ -131,7 +144,7 @@
   <footer style="width:-webkit-fill-available; text-align:center;">
     © 2025 <a href="https:github.com/MicroResearch-Corporation/"
       style="text-decoration:none; color:var(--accent); ">MicroResearch Corporation®</a>. All Rights Reserved.<br><br>
-    Made with ♥ by <a href="https://mramzanch.blogspot.com/" style="text-decoration:none; color:var(--accent); "> M
+    Made with ♥ by <a aria-label="Visit M Ramzan Ch" href="https://mramzanch.blogspot.com/" style="text-decoration:none; color:var(--accent); "> M
       Ramzan Ch</a>
   </footer>
 

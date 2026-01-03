@@ -1,3 +1,8 @@
+
+
+
+// importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.5.3/workbox-sw.js')
+
 import { precacheAndRoute } from "workbox-precaching/precacheAndRoute";
 precacheAndRoute([
   { revision: "937f13dd265c253d99a75878fcf3e5db", url: "index copy.html" },

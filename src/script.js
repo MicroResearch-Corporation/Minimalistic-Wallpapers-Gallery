@@ -5,14 +5,7 @@
       limit: 36,
       NEW_DAYS: 14
     };  
-    /*
-    const CONFIG = {
-      json: "https://raw.githubusercontent.com/MegaMind-Solution/MegaMind-Solution/output/images-meta.json",
-      imageBase: "https://raw.githubusercontent.com/MegaMind-Solution/MegaMind-Solution/main/",
-      limit: 30,
-      NEW_DAYS: 14
-    };
-  */
+
 
     let allData = [], filtered = [], curIdx = 0, page = 0;
     const state = {
@@ -131,7 +124,7 @@
         card.innerHTML = `
           <div class="img-hld">
             ${img.isNew ? '<div class="badge-rgb">NEW</div>' : ''}
-            <img src="${img.url}" alt="${img.id}" loading="lazy" decoding="async" onload="setRes(this, ${gIdx})" width="100%" height="auto">
+            <img src="${img.url}" alt="${img.id}" loading="lazy" decoding="async" onload="setRes(this, ${gIdx})" style="aspect-ratio: 16 / 9; width:100%; height:auto;">
           </div>
           <button class="dots-btn" onclick="openMenu(event, ${gIdx}, 'card')">
             <span class="material-icons">more_vert</span>

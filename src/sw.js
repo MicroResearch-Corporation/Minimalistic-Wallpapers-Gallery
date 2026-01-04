@@ -1,7 +1,7 @@
 
 
 
-// importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.5.3/workbox-sw.js')
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.5.3/workbox-sw.js')
 
 import { precacheAndRoute } from "workbox-precaching/precacheAndRoute";
 precacheAndRoute([

@@ -1,6 +1,6 @@
 const CONFIG = {
   repos: [
-        {
+    {
       name: "M W G",
       json: "https://raw.githubusercontent.com/Pro-Bandey/minimalistic-wallpapers/output/images-meta.json",
       base: "https://raw.githubusercontent.com/Pro-Bandey/minimalistic-wallpapers/main/"
@@ -16,6 +16,9 @@ const CONFIG = {
 };
 
 let allData = [], filtered = [], curIdx = 0, page = 0;
+
+const savedPage = sessionStorage.getItem("mwg_page");
+
 const state = {
   theme: localStorage.getItem("theme") || "dark",
   layout: localStorage.getItem("layout") || (window.innerWidth < 768 ? "l-grid-medium" : "l-grid-small"),
@@ -46,19 +49,38 @@ async function start() {
     lSel.appendChild(o);
   });
 
-
-
   await fetchFiles();
-  const q = new URLSearchParams(window.location.search).get("q");
+  
+  const params = new URLSearchParams(window.location.search);
+  const q = params.get("q");
   if (q) document.getElementById("search-in").value = q;
-  apply();
-}
-function formatSize(kb) {
-  if (kb >= 1024) {
-    return (kb / 1024).toFixed(2) + " MB";
+  
+
+  apply(false); 
+
+  const imgParam = params.get("id");
+  
+  if (imgParam) {
+    const targetIdx = filtered.findIndex(i => (i.id === imgParam || i.name === imgParam));
+    if (targetIdx !== -1) {
+      page = Math.floor(targetIdx / CONFIG.limit); 
+      render(); 
+      openLB(targetIdx, false); 
+    }
+  } else if (savedPage) {
+    const p = parseInt(savedPage);
+    if (p * CONFIG.limit < filtered.length) {
+      page = p;
+      render();
+    }
   }
+}
+
+function formatSize(kb) {
+  if (kb >= 1024) return (kb / 1024).toFixed(2) + " MB";
   return kb.toFixed(2) + " KB";
 }
+
 async function fetchFiles() {
   try {
     const repoPromises = CONFIG.repos.map(async (repo) => {
@@ -66,11 +88,7 @@ async function fetchFiles() {
         const res = await fetch(repo.json, { cache: "no-store" });
         if (!res.ok) throw new Error(`Failed: ${repo.name}`);
         const data = await res.json();
-        return data.images.map(img => ({
-          ...img,
-          _baseUrl: repo.base,
-          source: repo.name
-        }));
+        return data.images.map(img => ({ ...img, _baseUrl: repo.base, source: repo.name }));
       } catch (err) {
         console.error(err);
         return [];
@@ -79,7 +97,6 @@ async function fetchFiles() {
 
     const results = await Promise.all(repoPromises);
     const combinedImages = results.flat();
-
     const now = Date.now();
     const NEW_MS = CONFIG.NEW_DAYS * 86400000;
 
@@ -89,7 +106,7 @@ async function fetchFiles() {
 
       return {
         raw: img,
-        id: img.id || "",
+        id: img.id || img.name, 
         name: img.name || img.src.split("/").pop(),
         url: (img._baseUrl || "") + img.src,
         folder: img.folder || "root",
@@ -116,7 +133,7 @@ async function fetchFiles() {
   }
 }
 
-function apply() {
+function apply(resetPage = true) {
   const q = document.getElementById("search-in").value.toLowerCase();
   filtered = allData.filter((i) => i.name.toLowerCase().includes(q));
   const s = document.getElementById("sort-by").value;
@@ -127,7 +144,12 @@ function apply() {
     if (typeof vA === "string") return state.order === "asc" ? vA.localeCompare(vB) : vB.localeCompare(vA);
     return state.order === "asc" ? vA - vB : vB - vA;
   });
-  page = 0; render();
+  
+  if(resetPage) {
+    page = 0;
+    sessionStorage.setItem("mwg_page", 0);
+  }
+  render();
 }
 
 function render() {
@@ -142,7 +164,7 @@ function render() {
     const gIdx = startIdx + i;
     const card = document.createElement("div");
     card.className = "card";
-    card.onclick = () => openLB(gIdx);
+    card.onclick = () => openLB(gIdx, true); 
     card.oncontextmenu = (e) => openMenu(e, gIdx, "card");
 
     let timer;
@@ -156,7 +178,7 @@ function render() {
     card.innerHTML = `
           <div class="img-hld">
             ${img.isNew ? '<div class="badge-rgb">NEW</div>' : ''}
-            <img src="${img.url}" alt="${img.name}" loading="lazy" decoding="async" onload="setRes(this, ${gIdx})" style="aspect-ratio: 16 / 9; width:100%; height:auto;">
+            <img src="${img.url}" alt="${img.id}" loading="lazy" decoding="async" onload="setRes(this, ${gIdx})" style="aspect-ratio: 16 / 9; width:100%; height:auto;">
           </div>
           <button class="dots-btn" onclick="openMenu(event, ${gIdx}, 'card')">
             <span class="material-icons">more_vert</span>
@@ -179,7 +201,6 @@ function render() {
 function setRes(imgEl, idx) {
   const w = imgEl.naturalWidth, h = imgEl.naturalHeight;
   const r = `${w}x${h}`;
-
   const item = filtered[idx];
   if (item) { item.res = r; item.resArea = w * h; }
   const id = item?.id;
@@ -201,7 +222,12 @@ function renderTabs() {
     const b = document.createElement("button");
     b.className = `tab ${i === page ? "active" : ""}`;
     b.innerText = i + 1;
-    b.onclick = () => { page = i; render(); window.scrollTo(0, 0); };
+    b.onclick = () => { 
+        page = i; 
+        sessionStorage.setItem("mwg_page", i); 
+        render(); 
+        window.scrollTo(0, 0); 
+    };
     t.appendChild(b);
   }
 }
@@ -233,31 +259,26 @@ const Actions = {
   },
   copyU: (i) => { navigator.clipboard.writeText(filtered[i].url); alert("Link Copied!"); },
   shareU: (i) => navigator.share?.({ title: filtered[i].name, url: filtered[i].url })?.catch(() => { }),
-
-  props: (i) => {
-    const img = filtered[i] || {};
-    const iconid = `<span class="material-icons" title="Folder" style="vertical-align:middle; font-size:15px;">new_releases</span>`;
-    const iconSource = `<span class="material-icons" title="Folder" style="vertical-align:middle; font-size:15px;">source</span>`;
-    const iconWidth = `<span class="material-icons" title="Folder" style="vertical-align:middle; rotate: 90deg; font-size:15px;">height</span>`;
-    const iconHeight = `<span class="material-icons" title="Folder" style="vertical-align:middle; font-size:15px;">height</span>`;
-    const iconAspect = '<span class="material-icons" title="Folder" style="vertical-align:middle; font-size:15px;">aspect_ratio</span>'
-    const iconReso = '<span class="material-icons" title="Folder" style="vertical-align:middle; font-size:15px;">photo_size_select_large</span>'
-    const iconSize = `<span class="material-icons" title="Folder" style="vertical-align:middle; font-size:15px;">storage</span>`;
-    const iconType = `<span class="material-icons" title="Folder" style="vertical-align:middle; font-size:15px;">type_specimen</span>`;
-    const iconFolder = `<span class="material-icons" title="Folder" style="vertical-align:middle; font-size:15px;">folder</span>`;
-    const iconRepo = `<span class="material-icons" title="Folder" style="vertical-align:middle; font-size:15px;">account_tree</span>`;
-    const iconDate = `<span class="material-icons" title="Folder" style="vertical-align:middle; font-size:15px;">date_range</span>`;
-    const iconHash = `<span class="material-icons" title="Folder" style="vertical-align:middle; font-size:15px;">tag</span>`;
-    const iconTags = `<span class="material-icons" title="Folder" style="vertical-align:middle; font-size:15px;">description</span>`;
-
-
+  props: (i) => {    const img = filtered[i] || {};    
+    const iconid = `<span class="material-icons" style="vertical-align:middle; font-size:15px;">new_releases</span>`;
+    const iconSource = `<span class="material-icons" style="vertical-align:middle; font-size:15px;">source</span>`;
+    const iconWidth = `<span class="material-icons" style="vertical-align:middle; rotate: 90deg; font-size:15px;">height</span>`;
+    const iconHeight = `<span class="material-icons" style="vertical-align:middle; font-size:15px;">height</span>`;
+    const iconAspect = '<span class="material-icons" style="vertical-align:middle; font-size:15px;">aspect_ratio</span>'
+    const iconReso = '<span class="material-icons" style="vertical-align:middle; font-size:15px;">photo_size_select_large</span>'
+    const iconSize = `<span class="material-icons" style="vertical-align:middle; font-size:15px;">storage</span>`;
+    const iconType = `<span class="material-icons" style="vertical-align:middle; font-size:15px;">type_specimen</span>`;
+    const iconFolder = `<span class="material-icons" style="vertical-align:middle; font-size:15px;">folder</span>`;
+    const iconRepo = `<span class="material-icons" style="vertical-align:middle; font-size:15px;">account_tree</span>`;
+    const iconDate = `<span class="material-icons" style="vertical-align:middle; font-size:15px;">date_range</span>`;
+    const iconHash = `<span class="material-icons" style="vertical-align:middle; font-size:15px;">tag</span>`;
+    const iconTags = `<span class="material-icons" style="vertical-align:middle; font-size:15px;">description</span>`;
 
     const added = (img.dates?.added ? new Date(img.dates.added) : (img.date ? new Date(img.date) : null));
     const updated = (img.dates?.updated ? new Date(img.dates.updated) : null);
     const addedStr = added ? added.toLocaleDateString(void 0, { year: "numeric", month: "2-digit", day: "2-digit" }) : "—";
     const updatedStr = updated ? updated.toLocaleDateString(void 0, { year: "numeric", month: "2-digit", day: "2-digit" }) : "—";
 
-    // --- Calculate Dimensions & Aspect Ratio ---
     let w = 0, h = 0, ar = 0, arStr = "—";
     if (img.res && img.res !== "...") {
       const parts = img.res.split("x");
@@ -269,16 +290,9 @@ const Actions = {
       }
     }
 
-    const displayRaw = {
-      ...img.raw,
-      source: img.source, 
-      width: w,
-      height: h,
-      aspect_ratio: ar
-    };
+    const displayRaw = { ...img.raw, source: img.source, width: w, height: h, aspect_ratio: ar };
     const jsonString = JSON.stringify(displayRaw, null, 2);
-
-    const previewHtml = `<div class="prop-preview"><img src="${img.url}" alt="${img.name}" onload="this.classList.add('loaded')"></div>`;
+    const previewHtml = `<div class="prop-preview"><img src="${img.url}" alt="${img.id}" onload="this.classList.add('loaded')"></div>`;
 
     const list = [
       { l: "Filename", v: img.name || "—" },
@@ -306,35 +320,12 @@ const Actions = {
               <span class="prop-label">${p.l}</span>
               <span class="prop-val" id="pv-${p.l.replace(/\s+/g, '-')}">${p.v}</span>
             </div>
-            ${showCopy ?
-          `<div style="display:flex; gap:6px; align-items:center;">
-                 <button class="field copy" onclick="copyProp('${escapeForCopy(p.v)}')">
-                   <span class="material-icons">content_copy</span>
-                 </button>
-               </div>`
-          : ''}
+            ${showCopy ? `<div style="display:flex; gap:6px; align-items:center;"><button class="field copy" onclick="copyProp('${escapeForCopy(p.v)}')"><span class="material-icons">content_copy</span></button></div>` : ''}
           </div>`;
     }).join("");
 
-    // --- RAW JSON SECTION (FIXED WITH ICON) ---
-    const rawJson = `
-          <details open>
-            <summary style="cursor:pointer; display:flex; align-items:center; justify-content:space-between; outline:none;">
-              <span>Show raw JSON</span>
-              <span>Copy Json:<button class="field copy" onclick="copyProp(decodeURIComponent('${encodeURIComponent(jsonString)}'))"><span class="material-icons">content_copy</span></button></span>
-            </summary>
-            <pre>${escapeHtml(jsonString)}</pre>
-          </details>`;
-
-    const html = `
-          <div class="prop-grid">
-            ${previewHtml}
-            <div class="prop-list">
-              ${listHtml}
-              ${rawJson}
-            </div>
-          </div>
-        `;
+    const rawJson = `<details open><summary style="cursor:pointer; display:flex; align-items:center; justify-content:space-between; outline:none;"><span>Show raw JSON</span><span>Copy Json:<button class="field copy" onclick="copyProp(decodeURIComponent('${encodeURIComponent(jsonString)}'))"><span class="material-icons">content_copy</span></button></span></summary><pre>${escapeHtml(jsonString)}</pre></details>`;
+    const html = `<div class="prop-grid">${previewHtml}<div class="prop-list">${listHtml}${rawJson}</div></div>`;
 
     document.getElementById("prop-body").innerHTML = html;
     document.getElementById("prop-popup").style.display = "block";
@@ -347,12 +338,7 @@ function escapeHtml(s) { return String(s).replace(/[&<>]/g, c => ({ '&': '&amp;'
 function escapeForCopy(s) { return (s === undefined || s === null) ? "" : String(s).replace(/'/g, "\\'").replace(/"/g, '\\"'); }
 
 function copyProp(text) {
-  try {
-    navigator.clipboard.writeText(text);
-    alert("Copied!");
-  } catch (e) {
-    alert("Copy failed: " + (e.message || e));
-  }
+  try { navigator.clipboard.writeText(text); alert("Copied!"); } catch (e) { alert("Copy failed: " + (e.message || e)); }
 }
 
 function hideMenus() { document.getElementById("m3-menu").style.display = "none"; }
@@ -395,16 +381,24 @@ function openMenu(e, idx, ctx) {
 
 function exec(k, i) {
   hideMenus();
-  if (k === "lb") openLB(i);
+  if (k === "lb") openLB(i, true);
   else if (Actions[k]) Actions[k](i);
 }
 
-function openLB(i) {
+function openLB(i, pushState = true) {
   curIdx = i;
   const img = filtered[i];
+  if (!img) return;
+
   document.getElementById("lb-img").src = img.url;
   document.getElementById("lightbox").style.display = "flex";
   document.body.style.overflow = "hidden";
+  
+  if (pushState) {
+    const url = new URL(window.location);
+    url.searchParams.set("img", img.id || img.name);
+    window.history.pushState({ lbOpen: true, imgId: img.id }, "", url);
+  }
 
   if (window.innerWidth > 768) {
     const area = document.getElementById("lb-actions-dk");
@@ -425,10 +419,29 @@ function openLB(i) {
   }
 }
 
-function closeLB() {
+function closeLB(pushState = true) {
   document.getElementById("lightbox").style.display = "none";
   document.body.style.overflow = "auto";
+  
+  if (pushState) {
+    const url = new URL(window.location);
+    url.searchParams.delete("img");    window.history.pushState({ lbOpen: false }, "", url);
+  }
 }
+
+window.addEventListener("popstate", (e) => {
+  const url = new URL(window.location);
+  const imgParam = url.searchParams.get("img");
+  
+  if (imgParam) {
+     const idx = filtered.findIndex(i => (i.id === imgParam || i.name === imgParam));
+     if(idx !== -1) openLB(idx, false);
+  } else {
+     if (document.getElementById("lightbox").style.display === "flex") {
+        closeLB(false); 
+     }
+  }
+});
 
 function closeProps() {
   document.getElementById("prop-popup").style.display = "none";
@@ -436,7 +449,15 @@ function closeProps() {
   document.body.style.overflow = "auto";
 }
 
-function nav(d) { curIdx = (curIdx + d + filtered.length) % filtered.length; openLB(curIdx); }
+function nav(d) { 
+  curIdx = (curIdx + d + filtered.length) % filtered.length; 
+  const img = filtered[curIdx];
+  const url = new URL(window.location);
+  url.searchParams.set("img", img.id || img.name);
+  window.history.replaceState({ lbOpen: true, imgId: img.id }, "", url);
+  
+  openLB(curIdx, false); 
+}
 
 document.getElementById("theme-tog").onclick = () => {
   document.body.classList.toggle("light");
@@ -444,14 +465,18 @@ document.getElementById("theme-tog").onclick = () => {
 };
 document.getElementById("layout-sel").onchange = (e) => { localStorage.setItem("layout", e.target.value); render(); };
 
-document.getElementById("sort-by").onchange = (e) => { state.sort = e.target.value; localStorage.setItem("sort", e.target.value); apply(); };
+document.getElementById("sort-by").onchange = (e) => { 
+    state.sort = e.target.value; 
+    localStorage.setItem("sort", e.target.value); 
+    apply(true);
+};
 
 const btn = document.getElementById("sort-order");
 btn.onclick = function () {
   state.order = state.order === "asc" ? "desc" : "asc";
   localStorage.setItem("order", state.order);
   this.style.transform = this.style.transform === "scaleY(-1)" ? "scaleY(1)" : "scaleY(-1)";
-  apply();
+  apply(true);
 };
 const savedOrder = localStorage.getItem("order");
 if (savedOrder === "desc") {
@@ -462,7 +487,13 @@ if (savedOrder === "desc") {
   btn.style.transform = "scaleY(1)";
 }
 
-document.getElementById("search-in").oninput = (e) => { const url = new URL(window.location); if (e.target.value) url.searchParams.set("q", e.target.value); else url.searchParams.delete("q"); window.history.replaceState({}, "", url); apply(); };
+document.getElementById("search-in").oninput = (e) => { 
+    const url = new URL(window.location); 
+    if (e.target.value) url.searchParams.set("q", e.target.value); 
+    else url.searchParams.delete("q"); 
+    window.history.replaceState({}, "", url); 
+    apply(true); 
+};
 
 window.onscroll = hideMenus;
 window.addEventListener("click", (e) => { if (!e.target.closest(".m3-menu") && !e.target.closest(".dots-btn")) hideMenus(); });

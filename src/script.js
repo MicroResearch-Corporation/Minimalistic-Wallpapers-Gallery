@@ -156,7 +156,7 @@ function render() {
     card.innerHTML = `
           <div class="img-hld">
             ${img.isNew ? '<div class="badge-rgb">NEW</div>' : ''}
-            <img src="${img.url}" alt="${img.id}" loading="lazy" decoding="async" onload="setRes(this, ${gIdx})" style="aspect-ratio: 16 / 9; width:100%; height:auto;">
+            <img src="${img.url}" alt="${img.name}" loading="lazy" decoding="async" onload="setRes(this, ${gIdx})" style="aspect-ratio: 16 / 9; width:100%; height:auto;">
           </div>
           <button class="dots-btn" onclick="openMenu(event, ${gIdx}, 'card')">
             <span class="material-icons">more_vert</span>
@@ -271,14 +271,14 @@ const Actions = {
 
     const displayRaw = {
       ...img.raw,
-      source: img.source, // Ensure source is in raw
+      source: img.source, 
       width: w,
       height: h,
       aspect_ratio: ar
     };
     const jsonString = JSON.stringify(displayRaw, null, 2);
 
-    const previewHtml = `<div class="prop-preview"><img src="${img.url}" alt="${img.id}" onload="this.classList.add('loaded')"></div>`;
+    const previewHtml = `<div class="prop-preview"><img src="${img.url}" alt="${img.name}" onload="this.classList.add('loaded')"></div>`;
 
     const list = [
       { l: "Filename", v: img.name || "—" },
@@ -377,7 +377,7 @@ function openMenu(e, idx, ctx) {
   ];
 
   menu.innerHTML = list.map(it => `
-        <button onclick="exec('${it.k}', ${idx})">
+        <button title="${it.n}" onclick="exec('${it.k}', ${idx})">
           <span class="material-icons" style="font-size:20px">${it.i}</span>
           <span>${it.n}</span>
         </button>

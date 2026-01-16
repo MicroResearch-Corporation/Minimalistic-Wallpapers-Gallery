@@ -58,7 +58,7 @@ async function start() {
 
   apply(false); 
 
-  const imgParam = params.get("id");
+  const imgParam = params.get("img");
   
   if (imgParam) {
     const targetIdx = filtered.findIndex(i => (i.id === imgParam || i.name === imgParam));
